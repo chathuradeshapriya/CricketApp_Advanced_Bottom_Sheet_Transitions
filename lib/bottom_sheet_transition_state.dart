@@ -41,6 +41,26 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
     _controller.fling(velocity: isCompleted ? -1 : 1);
   }
 
+  void verticalDragUpdate(DragUpdateDetails details) {
+    _controller.value -= (details.primaryDelta!/maxHeight);
+
+  }
+
+  void verticalDragEnd(DragEndDetails details) {
+    if (_controller.isAnimating ||
+        _controller.status == AnimationStatus.completed) return;
+
+    final double flingVelocity =
+        details.velocity.pixelsPerSecond.dy / maxHeight;
+
+    if (flingVelocity < 0) {
+      _controller.fling(velocity: math.max(1, -flingVelocity));
+    } else if (flingVelocity > 0) {
+      _controller.fling(velocity: math.min(-1, -flingVelocity));
+    } else {
+      _controller.fling(velocity: _controller.value < 0.5 ? -1 : 1);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -53,6 +73,11 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
             height: lerp(120, maxHeight),
             child: GestureDetector(
               onTap: toggle,
+              onVerticalDragUpdate: verticalDragUpdate,
+              onVerticalDragEnd: verticalDragEnd,
+
+
+
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(0xff920201),
