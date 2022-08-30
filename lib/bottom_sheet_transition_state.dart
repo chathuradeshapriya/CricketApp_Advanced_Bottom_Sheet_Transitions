@@ -32,10 +32,10 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
     _controller.dispose();
     super.dispose();
   }
-
   double? lerp(double min, double max) {
     return lerpDouble(min, max, _controller.value);
   }
+
   void toggle() {
     final bool isCompleted = _controller.status == AnimationStatus.completed;
     _controller.fling(velocity: isCompleted ? -1 : 1);
@@ -61,6 +61,8 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
       _controller.fling(velocity: _controller.value < 0.5 ? -1 : 1);
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -80,8 +82,37 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
 
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff920201),
+                  color: Color(0xff068bff),
                   borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                ),
+
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  children: [
+                    Positioned(
+                        left: 0,
+                        right: 0,
+                        top: lerp(20, 40),
+                        child: Row(
+                      children: [
+                        Text("Popular Cricketers",style: TextStyle(
+                          color: Colors.white,
+                          fontSize: lerp(15, 25),
+                          fontWeight: FontWeight.w500,
+                        ),),
+                        Icon(
+
+                            _controller.status == AnimationStatus.completed
+                        ? Icons.arrow_downward
+                        : Icons.arrow_upward,
+
+                        color: Colors.white,
+                            size: lerp(15, 25),
+                        )
+                        
+                      ],
+                    ))
+                  ],
                 ),
               ),
             ),
