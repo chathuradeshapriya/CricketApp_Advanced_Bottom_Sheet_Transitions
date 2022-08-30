@@ -36,10 +36,10 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
   double? lerp(double min, double max) {
     return lerpDouble(min, max, _controller.value);
   }
-  // void toggle() {
-  //   final bool isCompleted = _controller.status == AnimationStatus.completed;
-  //   _controller.fling(velocity: isCompleted ? -1 : 1);
-  // }
+  void toggle() {
+    final bool isCompleted = _controller.status == AnimationStatus.completed;
+    _controller.fling(velocity: isCompleted ? -1 : 1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _BottomSheetTransitionState extends State<BottomSheetTransition>
             bottom: 0,
             height: lerp(120, maxHeight),
             child: GestureDetector(
-              // onTap: toggle,
+              onTap: toggle,
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(0xff920201),
